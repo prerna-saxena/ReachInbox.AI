@@ -1,0 +1,33 @@
+/* App.css */
+.app-container.light {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.app-container.dark {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.login-container, .onebox-container, .editor-container, .reply-container {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input, textarea {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
