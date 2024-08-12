@@ -1,0 +1,56 @@
+// Onebox.js
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const Onebox = () => {
+    const [threads, setThreads] = useState([]);
+    const [selectedThread, setSelectedThread] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get('/onebox/list')
+            .then(response => setThreads(response.data))
+            .catch(error => console.error(error));
+    }, []);
+
+    const handleDelete = (threadId) => {
+        axios.delete(`/onebox/${threadId}`)
+            .then(() => setThreads(threads.filter(thread => thread.id !== threadId)))
+            .catch(error => console.error(error));
+    };
+
+    const handleReply = (threadId) => {
+        setSelectedThread(threadId);
+        // Open Reply box logic
+    };
+
+    useEffect(() => {
+        const handleKeyPress = (event) => {
+            if (event.key === 'D') {
+                handleDelete(selectedThread);
+            }
+            if (event.key === 'R') {
+                handleReply(selectedThread);
+            }
+        };
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, [selectedThread]);
+
+    return (
+        <div className="onebox-container">
+            <h1>Onebox</h1>
+            <ul>
+                {threads.map(thread => (
+                    <li key={thread.id} onClick={() => setSelectedThread(thread.id)}>
+                        {thread.subject}
+                        <button onClick={() => handleDelete(thread.id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+export default Onebox;
